@@ -179,7 +179,7 @@ show_config(int EXIT)
   printf( "named URL:                      %s\n", my.url==NULL||strlen(my.url)<2?"none":my.url );
   printf( "URLs file:                      %s\n", strlen(my.file)>1?my.file:URL_FILE );
   printf( "logging:                        %s\n", my.logging?"true":"false" );
-  printf( "log file:                       %s\n", my.logfile==NULL?LOG_FILE:my.logfile );
+  printf( "log file:                       %s\n", my.logfile );
   printf( "resource file:                  %s\n", my.rc);
   printf( "timestamped output:             %s\n", my.timestamp?"true":"false");
   printf( "comma separated output:         %s\n", my.csv?"true":"false");
