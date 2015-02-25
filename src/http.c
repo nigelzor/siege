@@ -250,6 +250,15 @@ http_get(CONN *C, URL U)
   return TRUE;
 }
 
+private size_t
+strlen_safe(const char *s)
+{
+	if (s == NULL) {
+		return 0;
+	}
+	return strlen(s);
+}
+
 BOOLEAN
 http_post(CONN *C, URL U)
 {
@@ -347,7 +356,7 @@ http_post(CONN *C, URL U)
          strlen((strncasecmp(my.extra, "Accept:", 7)==0) ? "" : accept) +
          sizeof(encoding) +
          strlen(my.uagent) +
-         strlen(url_get_conttype(U)) +
+         strlen_safe(url_get_conttype(U)) +
          strlen(my.extra) +
          strlen(keepalive) + 
          url_get_postlen(U) +
