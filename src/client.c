@@ -62,6 +62,7 @@ void clean_up();
 #ifdef SIGNAL_CLIENT_PLATFORM
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 #endif/*SIGNAL_CLIENT_PLATFORM*/
+pthread_mutex_t mark_mutex = PTHREAD_MUTEX_INITIALIZER;
 float himark = 0;
 float lomark = -1;  
 
@@ -314,6 +315,7 @@ __http(CONN *C, URL U, CLIENT *client)
   /**
    * check to see if this transaction is the longest or shortest
    */
+  pthread_mutex_lock(&mark_mutex);
   if (etime > himark) {
     himark = etime;
   }
@@ -322,6 +324,7 @@ __http(CONN *C, URL U, CLIENT *client)
   }
   client->himark = himark;
   client->lomark = lomark;
+  pthread_mutex_unlock(&mark_mutex);
 
   /**
    * verbose output, print statistics to stdout

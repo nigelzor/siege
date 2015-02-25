@@ -663,7 +663,7 @@ http_read(CONN *C)
   int    chunk  = 0;
   size_t bytes  = 0;
   size_t length = 0;
-  static char body[MAXFILE];
+  static __thread char body[MAXFILE];
 
   if (C == NULL) NOTIFY(FATAL, "Connection is NULL! Unable to proceed"); 
 
@@ -694,7 +694,7 @@ http_read(CONN *C)
     if (C->content.length > 0) {
       length = (C->content.length < MAXFILE) ? C->content.length:MAXFILE;
       do {
-        memset(body, '\0', sizeof(body));
+        memset(body, 0, sizeof(body));
         if ((n = socket_read(C, body, length)) == 0)
           break;
         bytes += n;
@@ -712,7 +712,7 @@ http_read(CONN *C)
         }
         do {
           int n;
-          memset(body, '\0', MAXFILE);
+          memset(body, 0, MAXFILE);
           n = socket_read(C, body, (chunk>MAXFILE)?MAXFILE:chunk);
           chunk -= n;
           bytes += n;
@@ -720,7 +720,7 @@ http_read(CONN *C)
       }
     } else {
       do {
-        memset(body, '\0', sizeof(body));
+        memset(body, 0, sizeof(body));
         if ((n = socket_read(C, body, sizeof(body))) == 0)
           break;
         bytes += n;
