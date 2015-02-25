@@ -31,13 +31,13 @@
  *                  larger char pointer (buffer).
  */
 char *
-substring(char *str, int start, int len)
+substring(const char *str, int start, int len)
 {
   int   i;
   char  *ret;
   char  *res;
-  char  *ptr;
-  char  *end;
+  const char  *ptr;
+  const char  *end;
 
 //  if ((len < 1) || (start < 0) || (start > (int)strlen (str)) || start+len > (int)strlen(str))
 //    return NULL;

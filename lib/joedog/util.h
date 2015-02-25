@@ -66,7 +66,7 @@ char *strchr (), *strrchr ();
 void   itoa(int, char []);
 void   reverse(char []);
 int    my_random(int, int);
-char   *substring(char *, int, int);
+char   *substring(const char *, int, int);
 float  elapsed_time(clock_t);
 
 #endif  /* UTIL_H */

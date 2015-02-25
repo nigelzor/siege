@@ -38,7 +38,7 @@ evaluate(HASH hash_table, char *buf)
   int  ENV = 0;
   int  len = 0;
   char final[BUFSIZE];
-  char *ptr;
+  const char *ptr;
   char *string;
   const char *scan;
   
@@ -52,7 +52,7 @@ evaluate(HASH hash_table, char *buf)
   if(scan[0] == '{' || scan[0] == '(')
     scan++;
  
-  ptr = (char*)scan;
+  ptr = scan;
   
   while(*scan && *scan != '}' && *scan != ')' && *scan != '/'){
     scan++;
