@@ -168,7 +168,6 @@ add_cookie(pthread_t id, char *host, char *cookiestr)
   }
   if (!found) {
     fresh = (CNODE*)xmalloc(sizeof(CNODE));
-    if (!fresh) NOTIFY(FATAL, "out of memory!"); 
     fresh->threadID = id;
     fresh->name     = xstrdup(name);
     fresh->value    = xstrdup(value);
