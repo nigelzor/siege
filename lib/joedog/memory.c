@@ -120,8 +120,8 @@ xmalloc(size_t size)
 void *
 xcalloc(size_t num, size_t size)
 {
-  void *tmp  =  xmalloc(num * size);
-  memset(tmp, 0, (num * size));
+  void *tmp = calloc(num, size);
+  if(tmp==NULL) NOTIFY(FATAL, "Unable to allocate additional memory.");
   return tmp;
 } 
 

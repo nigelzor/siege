@@ -26,8 +26,6 @@
 
 #include <hash.h>
 
-#define BUFSIZE 40000
-
 char *evaluate(HASH hash_table, char *buf);
 
 #endif/*EVAL_H*/ 

@@ -35,19 +35,18 @@ char *
 evaluate(HASH hash_table, char *buf)
 {
   int  x   = 0;
-  int  ENV = 0;
-  int  len = 0;
-  char final[BUFSIZE];
   const char *ptr;
-  char *string;
+  char *lookup;
+  char *replacement;
+  char *result;
   const char *scan;
+  const char *start;
   
-  char *result = xrealloc(buf, BUFSIZE * sizeof(char));
-  if(result != NULL)
-    buf = result;
-
-  scan = strchr(buf, '$') + 1;
-  len  = (strlen(buf) - strlen(scan)) -1;
+  start = scan = strchr(buf, '$');
+  if (scan == NULL) {
+	  return buf;
+  }
+  scan++;
  
   if(scan[0] == '{' || scan[0] == '(')
     scan++;
@@ -62,24 +61,22 @@ evaluate(HASH hash_table, char *buf)
   if(scan[0] == '}' || scan[0] == ')')
     scan++;
  
-  string = substring(ptr, 0, x);
-  if (hash_lookup(hash_table, string) == 0) {
-    if (getenv(string) != NULL) {
-      ENV = 1;
-    } else {
-      string = '\0'; /* user botched his config file */
-    }
+  lookup = substring(ptr, 0, x);
+  replacement = hash_get(hash_table, lookup);
+  if (replacement == NULL) {
+	  replacement = getenv(lookup);
+  }
+  if (replacement == NULL) {
+    replacement = ""; /* user botched his config file */
   }
  
-  memset(final, 0, sizeof final);
-  strncpy( final, buf, len);
-  if(string != NULL)
-    strcat(final, ENV==0?hash_get(hash_table, string):getenv(string));
-  strcat(final, scan );
-  memset(result, 0, BUFSIZE * sizeof(char));
-  strncpy(result, final, strlen(final));
+  result = xcalloc((start - buf) + strlen(replacement) + strlen(scan) + 1, 1);
+  strncpy(result, buf, start - buf);
+  strcat(result, replacement);
+  strcat(result, scan);
   
-  xfree(string);
+  xfree(buf);
+  xfree(lookup);
   return result;
 }
  
